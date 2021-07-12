@@ -1,0 +1,11 @@
+const express = require('express')
+const router = express.Router()
+const appConstrollers = require('../constrollers/appConstrollers')
+const loginConstrollers = require('../constrollers/loginConstrollers')
+router.get('/',appConstrollers.index)
+router.get('/login',loginConstrollers.show_login)
+router.post('/login',loginConstrollers.login)
+// router.get('/sent',appConstrollers.show_sent)
+// router.get('received',appConstrollers.show_received)
+router.post('/',appConstrollers.output)
+module.exports = router

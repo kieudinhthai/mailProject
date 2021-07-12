@@ -1,0 +1,47 @@
+.item{
+    color: rgb(73, 73, 73);
+    
+}
+.navbar .logo{
+    font-size: 35px;
+}
+
+.form-group .box{
+    border: none;
+    border-bottom: 1px solid rgb(202, 202, 202);
+    outline: none;
+}
+.big_box{
+    border: 1px solid rgb(202, 202, 202);
+    outline: none;
+}
+.modal-footer .btn_send{
+    background-color: rgb(41, 42, 43);
+    border: none;
+    outline: none;
+    color: white;
+}
+.seen{
+    font-weight: bold;
+}
+
+
+
+.margin{
+    height: 50px;
+}
+
+.main{
+    height: auto;
+    background-color: rgb(177, 177, 177);
+}
+.image{
+    border-radius: 50%;
+    align-items: center;
+    
+}
+.title{
+    text-align: center;
+    color: rgb(66, 66, 66);
+    font-family:  sans-serif;
+}
