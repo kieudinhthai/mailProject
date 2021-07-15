@@ -9,9 +9,11 @@ class loginConstrollers {
         User
         .findOne({ mail: req.body.mail }, function (err, data) {
             if (data) {
-                if (data.password == md5(req.body.password)) {
+                if (data.password == req.body.password) {
                         console.log("Done Login");
+                        //create session userId
                         req.session.userId = data._id;
+                        req.session.userName = data.mail
                         console.log(req.session.userId);
                         res.redirect('/');
                 } else {
