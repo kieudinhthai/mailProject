@@ -52,7 +52,10 @@ class Constrollers {
       })
     .catch(next);
   }
-
+// [GET] /detail
+  show_detail(req,res,next){
+    res.render('mail_deltail')
+  }
 // [GET] /slug
   show_404(req,res,next){
     res.render('404')
