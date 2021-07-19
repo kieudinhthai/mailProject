@@ -29,9 +29,15 @@
     outline: none;
     color: white;
 }
+
 .seen{
     font-weight: bold;
+    max-width: 50px;
+    height: 50px;
 }
+
+
+
 
  .avatar{
     width: 40px;

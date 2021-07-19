@@ -15,25 +15,19 @@
 
 <body>
   <div class="container ">
-    header
+    <%- include('./pratials/header')%>
     <div class="row">
-      <%- include('./pratials/bar')%>
-      <div class="col-10 row">
-        <div class="col-12 mb-3 "><h4>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis, ea aliquam.</h4></div>
+      
+      <div class="col-12 row ml-5 mt-4">
+        <div class="col-12 mb-3 "><h4><%= mail.title%></h4></div>
       <div class="col-6 row mb-3">
         <div class="col-2 mr-2 "><img class="avatar" src="../image/unnamed.jpg" alt=""></div>
-        <div class="col-9 ">Lorem ipsum dolor sit amet consectetur.</div>
+        <div class="col-9 "><b><%= mail.to%></b></div>
       </div>
       
-      <div class="col-6 ml-auto ">Lorem, ipsum dolor.</div>
+      <div class="col-6 ml-auto "><%= mail.createdAt%></div>
       <div class="col-1"></div>
-      <div class="col-9 mt-3 ">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quam temporibus nemo voluptatem
-        minima quibusdam impedit ullam necessitatibus
-        et ab nostrum, sunt in asperiores. Nisi sunt est
-        facere ad, quos nihil. Amet ea aliquam aut, tempore,
-        commodi praesentium expedita autem quas debitis ad,
-        doloremque quaerat distinctio eius nostrum laboriosam
-        explicabo vero?</div>
+      <div class="col-9 mt-3 "><%= mail.content%></div>
       <div class="col-2"></div>
       </div>
     </div>

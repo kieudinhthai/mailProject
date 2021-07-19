@@ -12,7 +12,7 @@ class Constrollers {
         res.render('index.ejs',
         {
           mails: multipleMongooseToObject(mail)
-         , users: mongooseToObject(user)
+         , user: mongooseToObject(user)
          
         })
       }
@@ -25,7 +25,7 @@ class Constrollers {
   output(req,res,next){
     let count = 1
     var formData = {
-      from:req.session.userName,
+      from:req.body.from,
       to:req.body.email,
       title:req.body.title,
       content:req.body.content,
@@ -44,7 +44,7 @@ class Constrollers {
         res.render('index.ejs',
         {
           mails: multipleMongooseToObject(mail)
-         , users: mongooseToObject(user)
+         , user: mongooseToObject(user)
          
         })
       }
@@ -54,8 +54,18 @@ class Constrollers {
   }
 // [GET] /detail
   show_detail(req,res,next){
-    res.render('mail_deltail')
-  }
+   Promise.all([Mail.findOne({_id:req.params.id}),User.findOne({_id:req.session.userId})])
+  .then(function ([mail,user]){
+      if(req.session.userId){
+        res.render('mail_detail',{
+          mail:mongooseToObject(mail),
+          user:mongooseToObject(user)
+        })
+      }
+     
+  })
+  .catch(next)
+}
 // [GET] /slug
   show_404(req,res,next){
     res.render('404')

@@ -22,7 +22,7 @@
     <div class="row">
     <%- include("./pratials/bar")%>
       <div class="col-10">
-        <table class="table">
+        <table class="table col-12" >
           <thead>
             <th colspan="6">
               <div class="form-check">
@@ -44,8 +44,8 @@
           </thead>
           <tbody>
             <% mails.forEach(data=>{ %>
-              <tr class="seen">
-                <td>
+              <tr  class="seen" data-link="/detail/<%= data._id%>"> 
+                <td  class="item ">
                   <div class="form-check">
                     <input class="form-check-input" type="checkbox" value="" id="">
                     <label class="form-check-label" for="defaultCheck1">
@@ -54,19 +54,20 @@
                   </div>
 
                 </td>
-                <td scope="row">
+                <td  class="item" >
                   <%= data.to%>
                 </td>
-                <td>
+                <td  class="item">
                   <%= data.title%>
                 </td>
-                <td>
+                <td >
                   <%= data.content%>
                 </td>
                 <td><b>35 thg 6</b></td>
                 <td><i data-toggle="modal" data-target="#exampleModal1" id="<%= data._id%>" class="trash fas fa-trash"
                     title="delete"></i></td>
-              </tr>
+                 </tr>
+                
               <% }) %>
           </tbody>
         </table>
@@ -106,7 +107,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn  btn_send"><i class=" far fa-paper-plane"></i> Send</button>
+          <button type="submit" name="from" value="<%=user.email%>" class="btn  btn_send"><i class=" far fa-paper-plane"></i> Send</button>
           </form>
         </div>
       </div>
@@ -138,33 +139,16 @@
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   <script>
+  document.addEventListener('DOMContentLoaded', function () {
+        $(document).ready(function() {
+        $("[data-link]").click(function() {
+          window.location.href = $(this).attr("data-link");
+          return false;
+        });
+      });
+  })
 
-    var checkboxElement = document.getElementsByClassName('seen')
-    var checkboxArray = []
-    var trashElemtent = document.getElementsByClassName('trash')
-
-  // for (let index = 0; index < checkboxElement.length; index++) {
-  //   checkboxElement[index].addEventListener("mouseenter", function( e ) {
-  //   trashElemtent[index].setAttribute('type','button')
-
-  //   Object.assign(trashElemtent[index].style,{display:"block"})
-
-  //   })  
-
-  //   checkboxElement[index].addEventListener("mouseover", function( e ) {
-  //   Object.assign(trashElemtent[index].style,{display:"block"})
-
-  //   }) 
-  // }
-
-
-
-    //   if (e.target.checked = true) {
-    //   trashElemtent[index].setAttribute('class','fas fa-trash')
-    // }
-    // else{
-    //   trashElemtent[index].removeAttribute("class",'fas fa-trash' );
-    // }
+  
 
 
 
