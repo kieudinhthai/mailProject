@@ -42,29 +42,49 @@
               </div>
             </th>
           </thead>
-          <tbody>
+          <tbody> 
+                  <% var username =""%>
+                  <% var style = ""%>
             <% mails.forEach(data=>{ %>
-              <tr  class="seen" data-link="/detail/<%= data._id%>"> 
+
+                <%if (data.from == user.email) {%>
+                <%username =data.to%>
+                <%} else {%>
+                <%username =data.from%>
+                
+                <%}%>
+
+                <%if(username ==data.from && data.from != data.to && data.seen ==false){%>
+                <%style ="font-weight: bold;"%>
+                <%} else {%>
+                  <%style ="font-weight: nomal;"%>
+                <%}%>
+                
+                  
+              <tr style="<%=style%>" class="seen mw-100" data-link="/detail/<%= data._id%>"> 
                 <td  class="item ">
                   <div class="form-check">
                     <input class="form-check-input" type="checkbox" value="" id="">
                     <label class="form-check-label" for="defaultCheck1">
-
+                     
                     </label>
                   </div>
 
                 </td>
                 <td  class="item" >
-                  <%= data.to%>
+
+
+                  <%=username%>
+
                 </td>
                 <td  class="item">
                   <%= data.title%>
                 </td>
-                <td >
-                  <%= data.content%>
+                <td class="item" >
+                  <%= data.content.length >500 ? data.content.substr(0,50 )+'...' : data.content%>
                 </td>
-                <td><b>35 thg 6</b></td>
-                <td><i data-toggle="modal" data-target="#exampleModal1" id="<%= data._id%>" class="trash fas fa-trash"
+                <td class="item"> <%= data.createdAt%></td>
+                <td><i data-toggle="modal" data-target="#exampleModal1" id="<%= data._id%>" class="trash fas fa-trash mt-2 mr-2" 
                     title="delete"></i></td>
                  </tr>
                 
@@ -146,7 +166,13 @@
           return false;
         });
       });
+
+
+
+     
   })
+
+
 
   
 

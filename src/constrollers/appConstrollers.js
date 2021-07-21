@@ -1,5 +1,6 @@
 const Mail = require('../constrollers/models/mailSchema')
 const User = require('../constrollers/models/userSchema')
+
 const { multipleMongooseToObject } = require('../until/mongoose')
 const { mongooseToObject } = require('../until/mongoose')
 
@@ -11,19 +12,18 @@ class Constrollers {
       if (req.session.userId) {
         res.render('index.ejs',
         {
-          mails: multipleMongooseToObject(mail)
+           mails: multipleMongooseToObject(mail)
          , user: mongooseToObject(user)
          
         })
       }
-      res.redirect('/login')
+      res.redirect('/logout')
       })
     .catch(next);
   }
 
 // [POST] / or /sent
   output(req,res,next){
-    let count = 1
     var formData = {
       from:req.body.from,
       to:req.body.email,
@@ -48,7 +48,7 @@ class Constrollers {
          
         })
       }
-      res.redirect('/login')
+      res.redirect('/logout')
       })
     .catch(next);
   }
