@@ -19,80 +19,78 @@
   <div class="container">
     <%- include("./pratials/header")%>
 
-    <div class="row">
-    <%- include("./pratials/bar")%>
-      <div class="col-10">
-        <table class="table col-12" >
-          <thead>
-            <th colspan="6">
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-              </div>
-              <div class=" dropdown ml-3 ">
-                <span class=" dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false">
-
-              </span>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="#">Action</a>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-              </div>
-            </th>
-          </thead>
-          <tbody> 
-                  <% var username =""%>
-                  <% var style = ""%>
-            <% mails.forEach(data=>{ %>
-
-                <%if (data.from == user.email) {%>
-                <%username =data.to%>
-                <%} else {%>
-                <%username =data.from%>
-                
-                <%}%>
-
-                <%if(username ==data.from && data.from != data.to && data.seen ==false){%>
-                <%style ="font-weight: bold;"%>
-                <%} else {%>
-                <%style ="font-weight: nomal;"%>
-                <%}%>
-                
-                  
-              <tr style="<%=style%>" class="seen mw-100" data-link="/detail/<%= data._id%>"> 
-                <td  class="item ">
+      <div class="row">
+        <%- include("./pratials/bar")%>
+          <div class="col-10">
+            <table class="table col-12">
+              <thead>
+                <th colspan="6">
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="">
+                    <input class="form-check-input" type="checkbox" value="" id="checkAll">
+                  </div>
+                  <div class=" dropdown ml-3 ">
+                    <span class=" dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                      aria-haspopup="true" aria-expanded="false">
+
+                    </span>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="#">Action</a>
+                      <a class="dropdown-item" href="#">Another action</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                  </div>
+                </th>
+              </thead>
+              <tbody>
+
+                <!--  -->
+                <% var username="" %>
+                <% var style="" %>
+                <% mails.forEach(data=>{ %>
+
+                      <%if (data.from==user.email) {%>
+                      <%username=data.to%>
+                      <%} else {%>
+                      <%username=data.from%>
+                      <%}%>
+
+                      <%if(username==data.from && data.from !=data.to && data.seen==false){%>
+                      <%style="font-weight: bold;" %>
+                      <%} else {%>
+                      <%style="font-weight: nomal;" %>
+                      <%}%>
+
+
+              <tr style="<%=style%> " class="seen mw-100" data-link="/detail/<%= data._id%>">
+                <td class="item ">
+                  <div class="form-check">
+                    <input class="checkbox form-check-input" type="checkbox" value="" id="">
                     <label class="form-check-label" for="defaultCheck1">
-                     
                     </label>
                   </div>
-
                 </td>
-                <td  class="item" >
-
-
+                <td class="item">
                   <%=username%>
-
                 </td>
-                <td  class="item">
+                <td class="item">
                   <%= data.title%>
                 </td>
-                <td class="item" >
-                  <%= data.content.length >500 ? data.content.substr(0,50 )+'...' : data.content%>
+                <td class="item">
+                  <%= data.content.length>500 ? data.content.substr(0,50 )+'...' :data.content%>
                 </td>
-                <td class="item"> <%= data.createdAt%></td>
-                <td><i data-toggle="modal" data-target="#exampleModal1" id="<%= data._id%>" data-id="<%= data._id%>" class="trash fas fa-trash mt-2 mr-2" 
+                <td class="item">
+                  <%= data.createdAt%>
+                </td>
+                <td><i data-toggle="modal" data-target="#exampleModal1" id="<%= data._id%>"
+                    data-id="<%= data._id%>" class="trash fas fa-trash mt-2 mr-2"
                     title="delete"></i></td>
-                 </tr>
-                
+              </tr>
               <% }) %>
-          </tbody>
-        </table>
+              </tbody>
+            </table>
+          </div>
       </div>
-    </div>
   </div>
 
 
@@ -127,7 +125,8 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" name="from" value="<%=user.email%>" class="btn  btn_send"><i class=" far fa-paper-plane"></i> Send</button>
+          <button type="submit" name="from" value="<%=user.email%>" class="btn  btn_send"><i
+              class=" far fa-paper-plane"></i> Send</button>
           </form>
         </div>
       </div>
@@ -160,38 +159,41 @@
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   <script>
-
-
-  let id ;
-  let btnDelete = document.getElementById('btn-delete');
-  let formDelete = document.forms['form-delete']
-  console.log(formDelete);
-  document.addEventListener('DOMContentLoaded', function () {
-        $(document).ready(function() {
-        $("[data-link]").click(function() {
+    document.addEventListener('DOMContentLoaded', function () {
+      let id;
+      let btnDelete = $('#btn-delete');
+      let formDelete = document.forms['form-delete']
+      var checkAll = $('#checkAll')
+     
+        // click vào một hàng, chuyển đến local detail/:id
+        $("[data-link]").click(function () {
           window.location.href = $(this).attr("data-link");
           return false;
-        }); 
-        $("[data-id]").click(function(e) {
-          id=e.target.id;
+        });
+        //riêng nút trash,có nhiệm vụ khác, nên hủy event đã thiết lập cho nó trước đó 
+        $("[data-id]").click(function (e) {
+          id = e.target.id;
           console.log(id);
-          $('body').off("click",".trash")
+          $('body').off("click", ".trash")
           $("#exampleModal1").modal('show')
           return false;
         });
+ 
+        // hiện modal 
         $("#exampleModal1").on('show.bs.modal')
-        $("#btn-delete").click(function() {
-          formDelete.action= `/delete/${id}?_method=DELETE`;
+        //click vào nút delete trên modal để submit một form với action /delete/:id
+        $("#btn-delete").click(function () {
+          formDelete.action = `/delete/${id}?_method=DELETE`;
           formDelete.submit()
           return false;
-        }); 
-      });
+        });
         
-  })
+        checkAll.change(function(){
+        console.log("change");
+      })
+      });
+      
 
-
-
-  
 
 
 

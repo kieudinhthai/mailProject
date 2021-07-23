@@ -1,3 +1,4 @@
+/*----------------------- index page---------------------------------*/
 .item{
     color: rgb(73, 73, 73);
     
@@ -33,10 +34,35 @@
 .seen{
     max-width: 50px;
     height: 50px;
+    position: relative;
+    z-index: 0;
     
+}
+.trash{
+    display: none;
+    
+}
+    
+.checkbox{
+    position: absolute;
+    z-index: 3;   
+}
+
+.status{
+    display: none;
 }
 
 
+.seen:hover .trash{
+    display: block;
+    z-index: 1000;
+}
+.seen:hover{
+    border :1px solid rgb(219, 217, 217);
+    background-color:rgb(247, 247, 247) ;
+}
+
+/* -----------------------login page----------------------------------*/
 
 
  .avatar{
@@ -65,7 +91,17 @@
     color: rgb(66, 66, 66);
     font-family:  sans-serif;
 }
+.lable_forgot{
+    text-align: right;
+    font-size: 13px;
+}
+.link{
+    color: rgb(54, 1, 187);
+    outline: none;
+    text-decoration: none;
 
+}
+/*----------------------- 404 page---------------------------------*/
 .margin_404{
     height: 150px;
     
@@ -77,24 +113,10 @@ text-shadow: 5px 5px 5px  rgb(92, 92, 92);
 .body_404{
 text-align: center;
 }
-
-.trash{
-    display: none;
-    z-index: 1000;
-    
+/*----------------------- register page---------------------------------*/
+.note{
+    text-align: center;
 }
-
-.status{
-    display: none;
+.error-mess{
+    color: red;
 }
-
-
-.seen:hover .trash{
-    display: block;
-    z-index: 1000;
-}
-.seen:hover{
-    border :1px solid rgb(219, 217, 217);
-    background-color:rgb(247, 247, 247) ;
-}
-
