@@ -57,7 +57,7 @@
                 <%if(username ==data.from && data.from != data.to && data.seen ==false){%>
                 <%style ="font-weight: bold;"%>
                 <%} else {%>
-                  <%style ="font-weight: nomal;"%>
+                <%style ="font-weight: nomal;"%>
                 <%}%>
                 
                   
@@ -84,7 +84,7 @@
                   <%= data.content.length >500 ? data.content.substr(0,50 )+'...' : data.content%>
                 </td>
                 <td class="item"> <%= data.createdAt%></td>
-                <td><i data-toggle="modal" data-target="#exampleModal1" id="<%= data._id%>" class="trash fas fa-trash mt-2 mr-2" 
+                <td><i data-toggle="modal" data-target="#exampleModal1" id="<%= data._id%>" data-id="<%= data._id%>" class="trash fas fa-trash mt-2 mr-2" 
                     title="delete"></i></td>
                  </tr>
                 
@@ -151,25 +151,42 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Delete</button>
+          <button type="button" id="btn-delete" class="btn btn-primary">Delete</button>
         </div>
       </div>
     </div>
   </div>
+  <form action="" name="form-delete" method="post"></form>
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   <script>
+
+
+  let id ;
+  let btnDelete = document.getElementById('btn-delete');
+  let formDelete = document.forms['form-delete']
+  console.log(formDelete);
   document.addEventListener('DOMContentLoaded', function () {
         $(document).ready(function() {
         $("[data-link]").click(function() {
           window.location.href = $(this).attr("data-link");
           return false;
+        }); 
+        $("[data-id]").click(function(e) {
+          id=e.target.id;
+          console.log(id);
+          $('body').off("click",".trash")
+          $("#exampleModal1").modal('show')
+          return false;
         });
+        $("#exampleModal1").on('show.bs.modal')
+        $("#btn-delete").click(function() {
+          formDelete.action= `/delete/${id}?_method=DELETE`;
+          formDelete.submit()
+          return false;
+        }); 
       });
-
-
-
-     
+        
   })
 
 

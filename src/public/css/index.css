@@ -80,6 +80,7 @@ text-align: center;
 
 .trash{
     display: none;
+    z-index: 1000;
     
 }
 
@@ -90,6 +91,7 @@ text-align: center;
 
 .seen:hover .trash{
     display: block;
+    z-index: 1000;
 }
 .seen:hover{
     border :1px solid rgb(219, 217, 217);

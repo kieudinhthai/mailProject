@@ -52,9 +52,13 @@ class Constrollers {
       })
     .catch(next);
   }
-// [GET] /detail
+
+
+
+// [GET] [PUT] /detail/:id
   show_detail(req,res,next){
-   Promise.all([Mail.findOne({_id:req.params.id}),User.findOne({_id:req.session.userId})])
+    
+   Promise.all([Mail.findOne({_id:req.params.id}),User.findOne({_id:req.session.userId}),Mail.updateOne({_id:req.params.id},{seen:"true"})])
   .then(function ([mail,user]){
       if(req.session.userId){
         res.render('mail_detail',{
@@ -66,6 +70,15 @@ class Constrollers {
   })
   .catch(next)
 }
+
+//[DELETE] /delete/:id
+delete(req,res,next){
+  Mail.deleteOne({_id:req.params.id})
+    .then(()=> res.redirect('back')
+    .catch(next)
+  )
+}
+
 // [GET] /slug
   show_404(req,res,next){
     res.render('404')
@@ -87,6 +100,8 @@ class Constrollers {
 
     }
 };
+
+
 }
 
 
