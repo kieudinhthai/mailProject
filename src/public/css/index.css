@@ -120,3 +120,11 @@ text-align: center;
 .error-mess{
     color: red;
 }
+
+/*---------------------account-detail-----------------------*/
+.image{
+    width: 180px;
+    border-radius: 50%;
+    border: 1px solid rgb(219, 219, 219);
+ 
+}

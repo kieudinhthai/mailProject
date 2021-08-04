@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const upload = require('../until/multer')
 const appConstrollers = require('../constrollers/appConstrollers')
 const accountConstrollers = require('../constrollers/accountConstrollers')
 router.get('/login',accountConstrollers.show_login)
@@ -12,7 +13,10 @@ router.get('/',appConstrollers.index)
 router.get('/logout',appConstrollers.logout)
 router.get('/sent',appConstrollers.show_sent)
 router.get('/detail/:id',appConstrollers.show_detail)
+router.get('/account-detail/:id',appConstrollers.show_account   )
 router.get('/:slug',appConstrollers.show_404)
 router.post(['/','/sent'],appConstrollers.output)
 router.delete('/delete/:id',appConstrollers.delete)
+router.post('/account-detail/:id',upload.single('image'),appConstrollers.update_account)
+
 module.exports = router

@@ -1,8 +1,10 @@
+
+//const upload = require('../until/multer')
 const Mail = require('../constrollers/models/mailSchema')
 const User = require('../constrollers/models/userSchema')
-
 const { multipleMongooseToObject } = require('../until/mongoose')
 const { mongooseToObject } = require('../until/mongoose')
+
 
 class Constrollers {
   // [GET] /
@@ -21,6 +23,23 @@ class Constrollers {
       })
     .catch(next);
   }
+
+    // [GET] /search?q=query
+    // search(req, res, next) {
+    //   Promise.all([Mail.find({from:req.session.userName}), User.find({_id:req.session.userId})])
+    //   .then(function([mail, user]){
+    //     if (req.session.userId) {
+    //       res.render('index.ejs',
+    //       {
+    //          mails: multipleMongooseToObject(mail)
+    //        , user: mongooseToObject(user)
+           
+    //       })
+    //     }
+    //     res.redirect('/logout')
+    //     })
+    //   .catch(next);
+    // }
 
 // [POST] / or /sent
   output(req,res,next){
@@ -57,7 +76,6 @@ class Constrollers {
 
 // [GET] [PUT] /detail/:id
   show_detail(req,res,next){
-    
    Promise.all([Mail.findOne({_id:req.params.id}),User.findOne({_id:req.session.userId}),Mail.updateOne({_id:req.params.id},{seen:"true"})])
   .then(function ([mail,user]){
       if(req.session.userId){
@@ -70,6 +88,32 @@ class Constrollers {
   })
   .catch(next)
 }
+
+// [GET] /account-detail/:id
+show_account(req,res,next){
+  User.findOne({_id:req.session.userId})
+  .then(function (user){
+      if(req.session.userId){
+        res.render('account_detail',{
+          user:mongooseToObject(user)
+        })
+      }
+     
+  })
+  .catch(next)
+}
+//[POST] /account-detail/:id
+update_account(req,res,next){
+  var data ={
+    password: req.body.newPass,
+    phone_number:req.body.newPhone,
+    image:req.file.filename}
+  User.updateOne({_id:req.params.id},data)
+    .then(res.redirect('back'))
+    .catch(next)
+  
+}
+
 
 //[DELETE] /delete/:id
 delete(req,res,next){

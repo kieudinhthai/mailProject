@@ -1,6 +1,5 @@
 const User = require('./models/userSchema')
 const { mongooseToObject } = require('../until/mongoose')
-
 class loginConstrollers {
     show_login(req, res, next) {
         res.render("login")

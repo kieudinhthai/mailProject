@@ -1,13 +1,11 @@
 const express = require("express")
 const path = require("path")
-var session = require('express-session');
+const session = require('express-session');
 const router = require('./routers/routers')
 const data = require('./connect/connect_db')
 const methordOverride = require("method-override");
 const port = process.env.PORT || 3000;
 const app = express()
-
-
 
 app.use(express.json());
 app.use(methordOverride("_method"));
@@ -27,6 +25,8 @@ app.use(
   app.set('view engine', 'ejs')
   app.set('views',path.join(__dirname,'views'))
   app.use('/',router)
+
+
 
 data.connect()
 
