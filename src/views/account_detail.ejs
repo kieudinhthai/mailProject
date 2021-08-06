@@ -18,7 +18,7 @@
   <div class="container ">
     <%- include("./pratials/header")%>
     <form class="row mt-5" method="POST" action="/account-detail/<%=user._id%>" enctype="multipart/form-data" name="form-detail">
-      <div class="col-3"><img class="image " src="../image/unnamed.jpg" alt="">
+      <div class="col-3"><img class="image " src="../image/<%=user.image%>" alt="">
         <div class="col-12 mt-3">
           <div class="file-loading">
             <input id="image" name="image" type="file" >
@@ -35,7 +35,7 @@
         </div>
         <div class="form-group">
           <label for="">Phone number</label>
-          <input type="text" class="form-control" value="<%=user.phone%>"  name="newPhone" id="phone" aria-describedby="helpId" placeholder="">     
+          <input type="text" class="form-control" value="<%=user.phone_number%>"  name="newPhone" id="phone" aria-describedby="helpId" placeholder="">     
         </div>
       </div>
       <div class="col-6">
