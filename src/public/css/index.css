@@ -35,17 +35,17 @@
     max-width: 50px;
     height: 50px;
     position: relative;
-    z-index: 0;
+   
     
 }
-.trash{
+.ban{
     display: none;
     
 }
     
 .checkbox{
     position: absolute;
-    z-index: 3;   
+      
 }
 
 .status{
@@ -53,9 +53,9 @@
 }
 
 
-.seen:hover .trash{
+.seen:hover .ban{
     display: block;
-    z-index: 1000;
+   
 }
 .seen:hover{
     border :1px solid rgb(219, 217, 217);

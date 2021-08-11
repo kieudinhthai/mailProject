@@ -84,7 +84,7 @@ class Constrollers {
             user: mongooseToObject(user)
           })
         }
-
+        res.redirect('/logout')
       })
       .catch(next)
   }
@@ -98,11 +98,11 @@ class Constrollers {
             user: mongooseToObject(user)
           })
         }
-
+        res.redirect('/logout')
       })
       .catch(next)
   }
-  //[POST] /account-detail/:id
+  //[PUT] /account-detail/:id
   update_account(req, res, next) {
     var data={}
     if (req.body.newPhone) {
@@ -135,9 +135,30 @@ class Constrollers {
       )
   }
 
+  //[POST] /action
+  action(req,res,next){
+    switch (req.body.action) {
+      case 'delete':
+        Mail.deleteMany({_id:{$in: req.body.ids}})
+        .then(() => res.redirect('back'))
+        .catch(next)
+        break;
+
+        case "seen":
+        Mail.updateMany({_id:{$in: req.body.ids}},{ seen: true})
+        .then(() => res.redirect('back'))
+        .catch(next)
+    }
+
+    
+  }
+
   // [GET] /slug
   show_404(req, res, next) {
-    res.render('404')
+    if (req.session.userId) {
+      res.render('404')
+    }
+    res.redirect('/logout')
   }
 
   // [GET] /logout

@@ -24,76 +24,83 @@
           <div class="col-10">
             <table class="table col-12">
               <thead>
-                <th colspan="6">
+                <th colspan="7">
                   <div class="form-check">
                     <input class="form-check-input" type="checkbox" value="" id="checkAll">
                   </div>
+                  <form action="/action" name="form-action" method="post">
                   <div class=" dropdown ml-3 ">
                     <span class=" dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                       aria-haspopup="true" aria-expanded="false">
 
                     </span>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <a class="dropdown-item" href="#">Delete</a>
-                      
+                      <button type="submit" class="dropdown-item " name="action" value="delete" id="delete-item">Delete</button>
+
                       <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Seen</a>
+                      <button type="submit" class="dropdown-item " name="action" value="seen" id="seen-item">Seen</button>
                     </div>
                   </div>
+                
                 </th>
               </thead>
               <tbody>
 
                 <!--  -->
                 <% var username="" %>
-                <% var style="" %>
-                <% mails.forEach(data=>{ %>
+                  <% var style="" %>
+                    <% mails.forEach(data=>{ %>
 
                       <%if (data.from==user.email) {%>
-                      <%username=data.to%>
-                      <%} else {%>
-                      <%username=data.from%>
-                      <%}%>
+                        <%username=data.to%>
+                          <%} else {%>
+                            <%username=data.from%>
+                              <%}%>
 
-                      <%if(username==data.from && data.from !=data.to && data.seen==false){%>
-                      <%style="font-weight: bold;" %>
-                      <%} else {%>
-                      <%style="font-weight: nomal;" %>
-                      <%}%>
+                                <%if(username==data.from && data.from !=data.to && data.seen==false){%>
+                                  <%style="font-weight: bold;" %>
+                                    <%} else {%>
+                                      <%style="font-weight: nomal;" %>
+                                        <%}%>
 
 
-              <tr style="<%=style%> " class="seen mw-100" data-link="/detail/<%= data._id%>">
-                <td class="item ">
-                  <div class="form-check">
-                    <input class="checkbox form-check-input" type="checkbox" value="" id="">
-                    <label class="form-check-label" for="defaultCheck1">
-                    </label>
-                  </div>
-                </td>
-                <td class="item">
-                  <%=username%>
-                </td>
-                <td class="item">
-                  <%= data.title%>
-                </td>
-                <td class="item">
-                  <%= data.content.length>500 ? data.content.substr(0,50 )+'...' :data.content%>
-                </td>
-                <td class="item">
-                  <%= data.createdAt%>
-                </td>
-                <td><i data-toggle="modal" data-target="#exampleModal1" id="<%= data._id%>"
-                    data-id="<%= data._id%>" class="trash fas fa-trash mt-2 mr-2"
-                    title="delete"></i></td>
-              </tr>
-              <% }) %>
+                                          <tr style="<%=style%> " class="seen mw-100">
+                                            <td class="item-check ">
+                                              <div class="form-check">
+                                                <input class="checkbox form-check-input" type="checkbox"
+                                                  value="<%= data._id%>" name="ids[]" >
+                                                <label class="form-check-label" for="defaultCheck1">
+                                                </label>
+                                              </div>
+                                            </td>
+                                            <td class="item" data-id="<%= data._id%>">
+                                              <%=username%>
+                                            </td>
+                                            <td class="item" data-id="<%= data._id%>">
+                                              <%= data.title%>
+                                            </td>
+                                            <td class="item" data-id="<%= data._id%>">
+                                              <%= data.content.length>500 ? data.content.substr(0,50 )+'...'
+                                                :data.content%>
+                                            </td>
+                                            <td class="item" data-id="<%= data._id%>">
+                                              <%= data.createdAt%>
+                                            </td>
+                                            <td><i data-toggle="modal" data-target="#exampleModal1"
+                                                data-id="<%= data._id%>" class="ban fas fa-ban mt-2 "
+                                                title="ban"></i></td>
+                                            <td><i data-toggle="modal" data-target="#exampleModal1"
+                                                  data-id="<%= data._id%>" class="ban fas fa-trash-alt mt-2 mr-2 "
+                                                  title="delete"></i></td>
+                                          </tr>
+                                          <% }) %>
               </tbody>
             </table>
           </div>
       </div>
   </div>
 
-
+</form>
 
   <!-- Modal send mail -->
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -110,7 +117,7 @@
           <form action="" method="post">
             <div class="form-group">
               <label for="">Email</label>
-              <input type="email" class=" box col-12" name="email" id="" aria-describedby="helpId" placeholder="">
+              <input type="email" class=" box col-12" name="email"  aria-describedby="helpId" placeholder="">
               <small id="helpId" class="form-text text-muted"></small>
             </div>
             <div class="form-group">
@@ -156,43 +163,91 @@
     </div>
   </div>
   <form action="" name="form-delete" method="post"></form>
+  <form action="" name="form-detail" method="get"></form>
+  
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      let id;
-      let btnDelete = $('#btn-delete');
-      let formDelete = document.forms['form-delete']
-      var checkAll = $('#checkAll')
-     
-        // click vào một hàng, chuyển đến local detail/:id
-        $("[data-link]").click(function () {
-          window.location.href = $(this).attr("data-link");
-          return false;
-        });
-        //riêng nút trash,có nhiệm vụ khác, nên hủy event đã thiết lập cho nó trước đó 
-        $("[data-id]").click(function (e) {
-          id = e.target.id;
-          console.log(id);
-          $('body').off("click", ".trash")
-          $("#exampleModal1").modal('show')
-          return false;
-        });
- 
-        // hiện modal 
-        $("#exampleModal1").on('show.bs.modal')
-        //click vào nút delete trên modal để submit một form với action /delete/:id
-        $("#btn-delete").click(function () {
+
+    let id;
+    let idArray =[]
+    let checked
+    let btnDelete = document.getElementById('btn-delete')
+    let formDelete = document.forms['form-delete']
+    let formDetail = document.forms['form-detail']
+    let formAction = document.forms['form-action']
+    let checkAll = document.getElementById('checkAll')
+    let check = document.getElementsByClassName('checkbox')
+    let spanDelete = document.getElementById('delete-item')
+    let spanSeen = document.getElementById('seen-item')
+    let item = document.getElementsByClassName('item')
+    console.log(spanDelete);
+    console.log(spanSeen);
+   
+    // click thẻ delete submit form deletemany
+
+    spanDelete.addEventListener('click', function (e) {
+      checked = document.querySelectorAll('input[name="ids[]"]:checked') 
+      if (checked.length > 0) {
+        console.log(checked);
+        for (let index = 0; index < checked.length; index++) {
+            id = checked[index].getAttribute('value')
+            idArray.push(id)
+            formAction.submit()
+        }
+        console.log(idArray);
+      }
+      else{
+        e.preventDefault()
+      }
+    })
+
+
+
+    // click vào một hàng, chuyển đến local detail/:id
+    for (let index = 0; index < item.length; index++) {
+      item[index].addEventListener('click', function (e) {
+        id = item[index].getAttribute('data-id')
+        formDetail.action = `/detail/${id}`;
+        formDetail.submit()
+      })
+    }
+    //click vào bin , chuyển đến delete/:id?method=DELETE     
+    let ban = document.getElementsByClassName('ban')
+    for (let index = 0; index < ban.length; index++) {
+      ban[index].addEventListener('click', function (e) {
+        id = ban[index].getAttribute('data-id')
+        btnDelete.addEventListener('click', function (e) {
           formDelete.action = `/delete/${id}?_method=DELETE`;
           formDelete.submit()
-          return false;
-        });
-        
-        checkAll.change(function(){
-        console.log("change");
+        })
+
       })
-      });
-      
+
+    }
+    //click checkAll -> checked tất cả các checkbox
+    checkAll.addEventListener('change', function (e) {
+      var ischecked = checkAll.checked
+      console.log(ischecked);
+      for (let index = 0; index < check.length; index++) {
+        check[index].checked = ischecked
+      }
+    });
+
+
+    for (let index = 0; index < check.length; index++) {
+      check[index].addEventListener('change', function (e) {
+        checked = document.querySelectorAll('input[name="ids[]"]:checked')
+        if (check.length == checked.length) {
+          checkAll.checked = true
+        }
+        else {
+          checkAll.checked = false
+        }
+      })
+
+    }
+
 
 
 
