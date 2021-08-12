@@ -35,10 +35,12 @@
 
                     </span>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <button type="submit" class="dropdown-item " name="action" value="delete" id="delete-item">Delete</button>
+                      <button type="submit" class="dropdown-item " name="action" value="seen" id="seen-item">Seen</button>
 
                       <div class="dropdown-divider"></div>
-                      <button type="submit" class="dropdown-item " name="action" value="seen" id="seen-item">Seen</button>
+                      <button type="submit" class="dropdown-item " name="action" value="kill" id="kill-item">Kill</button>
+                      <button type="submit" class="dropdown-item " name="action" value="delete" id="delete-item">Delete</button>
+               
                     </div>
                   </div>
                 
@@ -86,11 +88,11 @@
                                             <td class="item" data-id="<%= data._id%>">
                                               <%= data.createdAt%>
                                             </td>
+                                            <td><i data-toggle="modal" data-target="#exampleModal2"
+                                                data-id="<%= data._id%>" class="icon kill fas fa-skull mt-2 "
+                                                title="kill"></i></td>
                                             <td><i data-toggle="modal" data-target="#exampleModal1"
-                                                data-id="<%= data._id%>" class="ban fas fa-ban mt-2 "
-                                                title="ban"></i></td>
-                                            <td><i data-toggle="modal" data-target="#exampleModal1"
-                                                  data-id="<%= data._id%>" class="ban fas fa-trash-alt mt-2 mr-2 "
+                                                  data-id="<%= data._id%>" class="icon delete fas fa-trash mt-2 mr-2 "
                                                   title="delete"></i></td>
                                           </tr>
                                           <% }) %>
@@ -141,8 +143,30 @@
   </div>
 
 
-  <!-- Modal delete -->
-  <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1"
+  <!-- Modal kill -->
+  <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel2">Kill</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Kill this email now!
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" id="btn-kill" class="btn btn-primary">Kill</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- Modal delete -->
+    <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -162,6 +186,7 @@
       </div>
     </div>
   </div>
+  <form action="" name="form-kill" method="post"></form>
   <form action="" name="form-delete" method="post"></form>
   <form action="" name="form-detail" method="get"></form>
   
@@ -172,13 +197,15 @@
     let id;
     let idArray =[]
     let checked
+    let btnKill = document.getElementById('btn-kill')
     let btnDelete = document.getElementById('btn-delete')
+    let formKill = document.forms['form-kill']
     let formDelete = document.forms['form-delete']
     let formDetail = document.forms['form-detail']
     let formAction = document.forms['form-action']
     let checkAll = document.getElementById('checkAll')
     let check = document.getElementsByClassName('checkbox')
-    let spanDelete = document.getElementById('delete-item')
+    let spanDelete = document.getElementById('kill-item')
     let spanSeen = document.getElementById('seen-item')
     let item = document.getElementsByClassName('item')
     console.log(spanDelete);
@@ -212,18 +239,29 @@
         formDetail.submit()
       })
     }
-    //click vào bin , chuyển đến delete/:id?method=DELETE     
-    let ban = document.getElementsByClassName('ban')
-    for (let index = 0; index < ban.length; index++) {
-      ban[index].addEventListener('click', function (e) {
-        id = ban[index].getAttribute('data-id')
-        btnDelete.addEventListener('click', function (e) {
+    //click vào skull , chuyển đến kill/:id?method=DELETE     
+    let kill = document.getElementsByClassName('kill')
+    for (let index = 0; index < kill.length; index++) {
+      kill[index].addEventListener('click', function (e) {
+        id = kill[index].getAttribute('data-id')
+      btnKill.addEventListener('click', function (e) {
+          formKill.action = `/kill/${id}?_method=DELETE`;
+          formKill.submit()
+        })
+
+      });
+    }
+     //click vào skull , chuyển đến kill/:id?method=DELETE     
+     let deleteItem = document.getElementsByClassName('delete')
+    for (let index = 0; index < deleteItem.length; index++) {
+      deleteItem[index].addEventListener('click', function (e) {
+        id = deleteItem[index].getAttribute('data-id')
+      btnDelete.addEventListener('click', function (e) {
           formDelete.action = `/delete/${id}?_method=DELETE`;
           formDelete.submit()
         })
 
-      })
-
+      });
     }
     //click checkAll -> checked tất cả các checkbox
     checkAll.addEventListener('change', function (e) {

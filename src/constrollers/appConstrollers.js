@@ -9,7 +9,7 @@ const { mongooseToObject } = require('../until/mongoose')
 class Constrollers {
   // [GET] /
   index(req, res, next) {
-    Promise.all([Mail.find({ to: req.session.userName }), User.findOne({ _id: req.session.userId })])
+    Promise.all([Mail.find({ to: req.session.userName, deleted: "false" }), User.findOne({ _id: req.session.userId })])
       .then(function ([mail, user]) {
         if (req.session.userId) {
           res.render('index.ejs',
@@ -57,7 +57,7 @@ class Constrollers {
   }
   //[GET] /sent
   show_sent(req, res, next) {
-    Promise.all([Mail.find({ from: req.session.userName }), User.findOne({ _id: req.session.userId })])
+    Promise.all([Mail.find({ from: req.session.userName , deleted: "false"  }), User.findOne({ _id: req.session.userId })])
       .then(function ([mail, user]) {
         if (req.session.userId) {
           res.render('index.ejs',
@@ -76,7 +76,7 @@ class Constrollers {
 
   // [GET] [PUT] /detail/:id
   show_detail(req, res, next) {
-    Promise.all([Mail.findOne({ _id: req.params.id }), User.findOne({ _id: req.session.userId }), Mail.updateOne({ _id: req.params.id }, { seen: "true" })])
+    Promise.all([Mail.findOne({ _id: req.params.id , deleted: "false" }), User.findOne({ _id: req.session.userId }), Mail.updateOne({ _id: req.params.id }, { seen: "true" })])
       .then(function ([mail, user]) {
         if (req.session.userId) {
           res.render('mail_detail', {
@@ -127,27 +127,42 @@ class Constrollers {
   }
 
 
-  //[DELETE] /delete/:id
-  delete(req, res, next) {
+  //[DELETE] /kill/:id
+  kill(req, res, next) {
     Mail.deleteOne({ _id: req.params.id })
       .then(() => res.redirect('back')
         .catch(next)
       )
   }
 
+    //[DELETE] /delete/:id
+    delete(req, res, next) {
+      Mail.delete({ _id: req.params.id })
+        .then(() => res.redirect('back')
+          .catch(next)
+        )
+    }
+
   //[POST] /action
   action(req,res,next){
     switch (req.body.action) {
-      case 'delete':
+      case 'kill':
         Mail.deleteMany({_id:{$in: req.body.ids}})
         .then(() => res.redirect('back'))
         .catch(next)
         break;
 
+        case 'delete':
+          Mail.delete({_id:{$in: req.body.ids}})
+          .then(() => res.redirect('back'))
+          .catch(next)
+          break;
+
         case "seen":
         Mail.updateMany({_id:{$in: req.body.ids}},{ seen: true})
         .then(() => res.redirect('back'))
         .catch(next)
+        break;
     }
 
     

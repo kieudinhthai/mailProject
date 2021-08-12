@@ -17,6 +17,7 @@ router.get('/account-detail/:id',appConstrollers.show_account)
 router.get('/:slug',appConstrollers.show_404)
 router.post('/action', appConstrollers.action)
 router.post(['/','/sent'],appConstrollers.output)
+router.delete('/kill/:id',appConstrollers.kill)
 router.delete('/delete/:id',appConstrollers.delete)
 router.put('/account-detail/:id',upload.single('image'),appConstrollers.update_account)
 
